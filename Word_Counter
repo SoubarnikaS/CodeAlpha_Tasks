@@ -1,0 +1,78 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
+import javax.swing.*;
+
+public class wordCounter {
+
+    static JFrame frame;
+    static JTextArea text;
+    static JButton countWord;
+    static JButton countLetter;
+    static JButton countSentence;
+
+    public static void countTheWords() {
+        String inputText = text.getText();
+        StringTokenizer tokenizer = new StringTokenizer(inputText);
+        int wordCount = tokenizer.countTokens();
+        JOptionPane.showMessageDialog(frame, "Word count: " + wordCount);
+    }
+
+    public static void countTheSentence() {
+        String inputText = text.getText();
+        String[] sentence = inputText.split("[.?!]");
+        int sentenceCount = sentence.length;
+        JOptionPane.showMessageDialog(frame, "Sentences count: " + sentenceCount);
+
+    }
+
+    public static void main(String args[]) {
+        frame = new JFrame("Word Counter");
+        JLabel headerLabel = new JLabel("Enter your text here:");
+        headerLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        frame.add(headerLabel);
+
+        text = new JTextArea(10, 40);
+
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        text.setForeground(Color.GRAY);
+        text.setFont(new Font("Monospaced", Font.PLAIN, 17));
+
+        countWord = new JButton("Count Words");
+        countSentence = new JButton("Count Sentence");
+
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+
+        frame.setLayout(new FlowLayout());
+        frame.setSize(screenWidth / 3, screenHeight / 2);
+        frame.setLocation(500, 250);
+        frame.add(new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+
+        frame.add(countWord);
+        frame.add(countSentence);
+
+        frame.setVisible(true);
+
+        countWord.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                countTheWords();
+            }
+        });
+
+        countSentence.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                countTheSentence();
+            }
+        });
+    }
+}
